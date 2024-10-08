@@ -51,7 +51,7 @@ export function SignInForm() {
           setLoading(false);
 
           startTransition(() => {
-            router.push(`/`);
+            router.push(`/recipes`);
             router.refresh();
           });
 

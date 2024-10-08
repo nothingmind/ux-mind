@@ -4,6 +4,8 @@ import { Toaster } from '@/components/ui/sonner';
 
 import { Header } from '@/components/layout/Header';
 
+import { cn } from '@/lib/utils';
+
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -20,8 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={outfit.className}>
-        <Header />
+      <body className={cn('min-h-screen', `${outfit.className}`)}>
         {children}
         <Toaster
           richColors

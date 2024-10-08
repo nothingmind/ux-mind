@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { SignUpForm } from '@/components/authorization/SignUp';
 
-import { PAGES } from '@/constants/pages';
+import { PAGES } from '@/lib/pages';
 
 export const metadata: Metadata = {
   title: 'Auth / Sign up',

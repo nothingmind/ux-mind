@@ -32,7 +32,13 @@ export function SignUpForm() {
     toast.promise(
       supabase.auth.signUp({
         email: data.email,
-        password: data.password
+        password: data.password,
+        options: {
+          data: {
+            first_name: data.first_name,
+            last_name: data.last_name
+          }
+        }
       }),
       {
         loading: 'Loading...',
@@ -42,7 +48,7 @@ export function SignUpForm() {
           setLoading(false);
 
           startTransition(() => {
-            router.push(`/`);
+            router.push(`/recipes`);
             router.refresh();
           });
 
@@ -71,9 +77,41 @@ export function SignUpForm() {
       <div className='grid gap-10'>
         <div className='grid gap-1'>
           <Label
+            htmlFor='first-name'
+            className='mb-1.5'>
+            First name
+          </Label>
+          <Input
+            id='first-name'
+            placeholder='Enter your first name'
+            type='text'
+            autoCapitalize='none'
+            autoCorrect='off'
+            {...register('first_name')}
+          />
+          {errors?.first_name && <p className='px-1 text-xs text-red-600'>{errors.first_name.message}</p>}
+        </div>
+        <div className='grid gap-1'>
+          <Label
+            htmlFor='last-name'
+            className='mb-1.5'>
+            Last name
+          </Label>
+          <Input
+            id='last-name'
+            placeholder='Enter your last name'
+            type='text'
+            autoCapitalize='none'
+            autoCorrect='off'
+            {...register('last_name')}
+          />
+          {errors?.last_name && <p className='px-1 text-xs text-red-600'>{errors.last_name.message}</p>}
+        </div>
+        <div className='grid gap-1'>
+          <Label
             htmlFor='email'
             className='mb-1.5'>
-            Username
+            Email
           </Label>
           <Input
             id='email'

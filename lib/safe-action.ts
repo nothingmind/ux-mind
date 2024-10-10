@@ -1,9 +1,9 @@
-import { createSafeActionClient } from 'next-safe-action';
+import { createSafeActionClient, DEFAULT_SERVER_ERROR_MESSAGE } from 'next-safe-action';
 
 import { createClient } from '@/lib/supabase/server';
 
-export const actionClient = createSafeActionClient({
-  middleware: async () => {
+export const action = createSafeActionClient({
+  async middleware() {
     const supabase = createClient();
     const { data: user, error } = await supabase.auth.getUser();
 
@@ -14,5 +14,12 @@ export const actionClient = createSafeActionClient({
     return {
       userId: user?.user.id
     };
+  },
+  handleServerError: (e) => {
+    if (e instanceof ActionError) {
+      return e.message;
+    }
+
+    return DEFAULT_SERVER_ERROR_MESSAGE;
   }
 });

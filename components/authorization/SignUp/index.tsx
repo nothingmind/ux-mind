@@ -15,7 +15,12 @@ import { Label } from '@/components/ui/label';
 
 import { Icons } from '@/components/shared/Icons';
 
-import { signUpSchema } from '../auth.schema';
+import { signUpSchema } from '@/actions/authorization/schema';
+
+const signUpResponseSchema = z.object({
+  success: z.boolean(),
+  message: z.string()
+});
 
 type FormData = z.infer<typeof signUpSchema>;
 
@@ -29,40 +34,60 @@ export function SignUpForm() {
   async function onSubmit(data: FormData) {
     setLoading(true);
 
-    toast.promise(
-      supabase.auth.signUp({
+    const signUpResponse = await fetch('/api/auth/sign-up', {
+      method: 'POST',
+      body: JSON.stringify({
         email: data.email,
         password: data.password,
-        options: {
-          data: {
-            first_name: data.first_name,
-            last_name: data.last_name
+        firstName: data.firstName,
+        lastName: data.lastName
+      })
+    });
+
+    const json = await signUpResponse.json();
+
+    const result = signUpResponseSchema.parse(json);
+
+    if (!result.success) {
+      setLoading(false);
+
+      toast.error(result.message);
+    } else {
+      toast.promise(
+        supabase.auth.signUp({
+          email: data.email,
+          password: data.password,
+          options: {
+            data: {
+              firstName: data.firstName,
+              lastName: data.lastName
+            }
+          }
+        }),
+        {
+          loading: 'Loading...',
+          success: (dt) => {
+            if (dt && dt.error) throw dt;
+
+            setLoading(false);
+
+            startTransition(() => {
+              router.push(`/recipes`);
+              router.refresh();
+            });
+
+            return 'Successfully signed up';
+          },
+          error: (dt) => {
+            setLoading(false);
+
+            console.error(dt.error.message);
+
+            return dt.error;
           }
         }
-      }),
-      {
-        loading: 'Loading...',
-        success: (dt) => {
-          if (dt && dt.error) throw dt;
-
-          setLoading(false);
-
-          startTransition(() => {
-            router.push(`/recipes`);
-            router.refresh();
-          });
-
-          return 'Successfully signed up';
-        },
-        error: (dt) => {
-          setLoading(false);
-
-          console.error(dt.error.message);
-
-          return dt.error;
-        }
-      }
-    );
+      );
+    }
   }
   const {
     register,
@@ -87,9 +112,9 @@ export function SignUpForm() {
             type='text'
             autoCapitalize='none'
             autoCorrect='off'
-            {...register('first_name')}
+            {...register('firstName')}
           />
-          {errors?.first_name && <p className='px-1 text-xs text-red-600'>{errors.first_name.message}</p>}
+          {errors?.firstName && <p className='px-1 text-xs text-red-600'>{errors.firstName.message}</p>}
         </div>
         <div className='grid gap-1'>
           <Label
@@ -103,9 +128,9 @@ export function SignUpForm() {
             type='text'
             autoCapitalize='none'
             autoCorrect='off'
-            {...register('last_name')}
+            {...register('lastName')}
           />
-          {errors?.last_name && <p className='px-1 text-xs text-red-600'>{errors.last_name.message}</p>}
+          {errors?.lastName && <p className='px-1 text-xs text-red-600'>{errors.lastName.message}</p>}
         </div>
         <div className='grid gap-1'>
           <Label

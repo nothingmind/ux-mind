@@ -1,5 +1,6 @@
 export enum PAGES {
   HOME = '/',
+  ERROR = '/error',
 
   SIGN_IN = '/sign-in',
   SIGN_UP = '/sign-up',

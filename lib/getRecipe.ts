@@ -17,3 +17,5 @@ export const getRecipe = async (recipeId: string) =>
       created_at: true
     }
   });
+
+export const getAllRecipes = async () => await db.recipe.findMany();

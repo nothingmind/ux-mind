@@ -15,10 +15,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { PAGES } from '@/lib/pages';
-import { signout } from '@/actions/authorization/auth.action';
+import { signOut } from '@/actions/authorization';
 
 export const Dropdown = () => {
-  const handleSignout = () => signout();
+  const handleSignout = () => signOut();
 
   return (
     <DropdownMenu>
@@ -51,9 +51,11 @@ export const Dropdown = () => {
             <Link href={PAGES.HOME}>Profile</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href={PAGES.RECIPE_ADD}> Contol recipes</Link>
+            <Link href={PAGES.RECIPES}>All recipes</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={PAGES.RECIPE_ADD}>Add recipes</Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignout}>Sign out</DropdownMenuItem>

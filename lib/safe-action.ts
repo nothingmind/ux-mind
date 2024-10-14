@@ -2,7 +2,9 @@ import { createSafeActionClient, DEFAULT_SERVER_ERROR_MESSAGE } from 'next-safe-
 
 import { createClient } from '@/lib/supabase/server';
 
-export const action = createSafeActionClient({
+export const safeAction = createSafeActionClient();
+
+export const isAuthSafeAction = createSafeActionClient({
   async middleware() {
     const supabase = createClient();
     const { data: user, error } = await supabase.auth.getUser();

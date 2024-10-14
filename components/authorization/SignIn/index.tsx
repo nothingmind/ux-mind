@@ -16,7 +16,7 @@ import { Label } from '@/components/ui/label';
 
 import { Icons } from '@/components/shared/Icons';
 
-import { signInSchema } from '../auth.schema';
+import { signInSchema } from '@/actions/authorization/schema';
 
 type FormData = z.infer<typeof signInSchema>;
 

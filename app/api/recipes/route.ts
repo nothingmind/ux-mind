@@ -11,7 +11,8 @@ const createRecipeSchema = z.object({
   ingredients: z.array(z.string()),
   instructions: z.string(),
   cookTime: z.string(),
-  tags: z.array(z.string())
+  tags: z.array(z.string()),
+  userId: z.string()
 });
 
 export async function POST(request: NextRequest) {
@@ -23,7 +24,8 @@ export async function POST(request: NextRequest) {
 
   try {
     const json = await request.json();
-    const body = createRecipeSchema.parse(json);
+
+    const body = createRecipeSchema.parse({ ...json, userId: user?.id });
 
     await db.recipe.create({
       data: {
@@ -33,7 +35,8 @@ export async function POST(request: NextRequest) {
         ingredients: body.ingredients,
         instructions: body.instructions,
         cookTime: body.cookTime,
-        tags: body.tags
+        tags: body.tags,
+        userId: body.userId
       }
     });
 
@@ -42,28 +45,10 @@ export async function POST(request: NextRequest) {
       message: 'A new recipe was successfully created'
     });
   } catch (error) {
+    console.log(error);
     return Response.json({
       success: false,
       message: 'Error occured while create a recipe!'
-    });
-  }
-}
-
-export async function GET(request: NextRequest) {
-  try {
-    const data = await db.recipe.findMany();
-
-    return Response.json({
-      result: data,
-      success: true,
-      message: 'Successfully'
-    });
-  } catch (error) {
-    console.error(error);
-
-    return Response.json({
-      success: false,
-      message: 'Error'
     });
   }
 }

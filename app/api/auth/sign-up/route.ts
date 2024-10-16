@@ -24,6 +24,7 @@ export async function POST(request: Request) {
 
     await db.user.create({
       data: {
+        id,
         email,
         firstName,
         lastName,

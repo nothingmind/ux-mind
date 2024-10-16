@@ -1,4 +1,4 @@
-import { CreateRecipeForm } from '@/components/recipes/ControlForm';
+import { CreateRecipeForm } from '@/components/recipes/Form/Create';
 
 export default function RecipesAdd() {
   return (

@@ -2,13 +2,15 @@
 
 import Image from 'next/image';
 
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { CircleArrowLeft, Pencil, X } from 'lucide-react';
 import Link from 'next/link';
 import { PAGES } from '@/lib/pages';
+import { deleteRecipe } from '@/actions/delete-recipe';
 
 export const RecipeDetails = ({ recipe }: { recipe: any }) => {
-  const { title, description, imageUrl, ingredients, instructions, cookTime, tags } = recipe;
+  console.log('Recipe Details', recipe);
+  const { id, title, description, imageUrl, ingredients, instructions, cookTime, tags } = recipe;
 
   return (
     <div className='max-w-[550px]'>
@@ -25,7 +27,9 @@ export const RecipeDetails = ({ recipe }: { recipe: any }) => {
             <Pencil className='mr-2 h-4 w-4' />
             Edit
           </Button>
-          <Button variant='destructive'>
+          <Button
+            variant='destructive'
+            onClick={() => deleteRecipe({ id })}>
             <X className='mr-2 h-4 w-4' />
             Delete
           </Button>

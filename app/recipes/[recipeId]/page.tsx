@@ -1,5 +1,6 @@
 import { NotFound } from '@/components/layout/Not-found';
-import { RecipeDetails } from '@/components/recipes/RecipeDetails';
+import { RecipeDetails } from '@/components/recipes/Recipe/Details';
+
 import { getRecipe } from '@/lib/getRecipe';
 
 export default async function Recipe({ params }: { params: { recipeId: string } }) {

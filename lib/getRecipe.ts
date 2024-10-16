@@ -18,4 +18,7 @@ export const getRecipe = async (recipeId: string) =>
     }
   });
 
-export const getAllRecipes = async () => await db.recipe.findMany();
+export const getAllRecipes = async ({ query }) =>
+  await db.recipe.findMany({
+    where: query
+  });

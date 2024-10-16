@@ -6,19 +6,13 @@ import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { NoRecipes } from '../../NoRecipes';
 
 import { PAGES } from '@/lib/pages';
 
 export const RecipesList: React.FC = ({ recipes }) => {
   if (!recipes.length) {
-    return (
-      <div className='flex flex-col flex-1 gap-4 justify-center items-center'>
-        There are no recipes
-        <Link href={PAGES.RECIPE_ADD}>
-          <Button>Create Recipe</Button>
-        </Link>
-      </div>
-    );
+    return <NoRecipes />;
   }
 
   return (

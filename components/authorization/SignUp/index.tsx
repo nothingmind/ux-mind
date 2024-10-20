@@ -12,6 +12,7 @@ import { supabase } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { PasswordInput } from '@/components/shared/Password';
 
 import { Icons } from '@/components/shared/Icons';
 
@@ -78,12 +79,10 @@ export function SignUpForm() {
 
             return 'Successfully signed up';
           },
-          error: (dt) => {
+          error: () => {
             setLoading(false);
 
-            console.error(dt.error.message);
-
-            return dt.error;
+            return 'Error occured while signing in to your account!';
           }
         }
       );
@@ -154,11 +153,11 @@ export function SignUpForm() {
             className='mb-1.5'>
             Password
           </Label>
-          <Input
+          <PasswordInput
             id='password'
             placeholder='Enter your password'
-            type='password'
             autoCapitalize='none'
+            autoCorrect='off'
             {...register('password')}
           />
           {errors?.password && <p className='px-1 text-xs text-red-600'>{errors.password.message}</p>}
@@ -169,10 +168,9 @@ export function SignUpForm() {
             className='mb-1.5'>
             Confirm password
           </Label>
-          <Input
+          <PasswordInput
             id='confirm-password'
             placeholder='Repeat your password'
-            type='password'
             autoCapitalize='none'
             autoCorrect='off'
             {...register('confirmPassword')}

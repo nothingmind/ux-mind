@@ -57,6 +57,23 @@ export const signUp = safeAction
     redirect(PAGES.HOME);
   });
 
+export const signInWithOAuth = safeAction.action(async () => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: 'http://localhost:3000/auth/callback'
+    }
+  });
+
+  if (error) {
+    redirect(PAGES.ERROR);
+  }
+
+  return redirect(data.url);
+});
+
 export const signOut = safeAction.action(async () => {
   const supabase = createClient();
 

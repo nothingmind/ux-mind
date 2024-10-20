@@ -4,9 +4,10 @@ export enum PAGES {
 
   SIGN_IN = '/sign-in',
   SIGN_UP = '/sign-up',
+  FORGOT_PASSWORD = '/forgot-password',
 
   RECIPES = '/recipes',
-  RECIPES_ID = '/recipes/[id]',
+  RECIPE_ID = '/recipes/[id]',
   RECIPE_ADD = '/recipes/add',
   RECIPE_EDIT = '/recipes/[id]/edit'
 }

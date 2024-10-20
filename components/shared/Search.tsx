@@ -1,18 +1,23 @@
 'use client';
 
+import { useTransition } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
+import { Icons } from '@/components/shared/Icons';
+
 import { Input } from '@/components/ui/input';
 
-import { QUERY_NAME } from '@/lib/global';
+export const QUERY_NAME = 'query';
 
-export const Search = () => {
+export function Search() {
   const searchParams = useSearchParams();
 
   const pathname = usePathname();
 
   const { replace } = useRouter();
+
+  const [isPending, startTransition] = useTransition();
 
   const debounced = useDebouncedCallback((searchInput: string) => {
     const params = new URLSearchParams(searchParams);
@@ -23,16 +28,21 @@ export const Search = () => {
       params.delete(QUERY_NAME);
     }
 
-    replace(`${pathname}?${params.toString()}`);
-  });
+    startTransition(() => {
+      replace(`${pathname}?${params.toString()}`);
+    });
+  }, 400);
 
   return (
-    <div>
+    <div className='flex w-full max-w-[425px] items-center gap-3'>
       <Input
         defaultValue={searchParams.get(QUERY_NAME)?.toString()}
-        placeholder='Search by title...'
+        placeholder='title or description...'
         onChange={(e) => debounced(e.target.value)}
       />
+      <div className='min-h-6 min-w-6'>
+        {isPending && <Icons.spinner className='size-6 flex-shrink-0 animate-spin' />}
+      </div>
     </div>
   );
-};
+}

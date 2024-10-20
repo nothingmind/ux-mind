@@ -4,7 +4,7 @@ import { db } from '@/lib/db';
 
 export async function POST(request: Request) {
   try {
-    const { email, password, lastName, firstName } = await request.json();
+    const { id, email, password, lastName, firstName } = await request.json();
 
     const user = await db.user.findUnique({
       where: {

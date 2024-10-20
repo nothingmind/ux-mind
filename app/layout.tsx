@@ -2,8 +2,6 @@ import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 
-import { Header } from '@/components/layout/Header';
-
 import { cn } from '@/lib/utils';
 
 import '@/styles/globals.css';
